@@ -48,9 +48,9 @@ namespace anghamiApi.Controllers
                 return BadRequest("Age should be present and positive");
             if (person.email == null)
                 return BadRequest("Email should be present");
-            if (person.email != null && !IsValidEmail(person.email))
+            if (person.email != null && !peopleService.IsValidEmail(person.email))
                 return BadRequest("Invalid email");
-            if (person.phone != null && !IsValidPhone(person.phone))
+            if (person.phone != null && !peopleService.IsValidPhone(person.phone))
                 return BadRequest("Invalid phone number");
             if (!peopleService.SearchByEmail(person.email))
                 return BadRequest("User already exists");
@@ -64,7 +64,7 @@ namespace anghamiApi.Controllers
         [Route("/api/v1/person/{email}")]
         public IActionResult UpdatePersonInDB(string email, [FromBody] Person person)
         {
-            if (email != null && !IsValidEmail(email))
+            if (email != null && !peopleService.IsValidEmail(email))
                 return BadRequest("Invalid email");
 
             if(!peopleService.SearchByEmail(email))
@@ -79,7 +79,7 @@ namespace anghamiApi.Controllers
         [Route("/api/v1/person/{email}")]
         public IActionResult DeletePersonFromDB(string email)
         {
-            if (email != null && !IsValidEmail(email))
+            if (email != null && !peopleService.IsValidEmail(email))
                 return BadRequest("Invalid email");
 
             if (!peopleService.SearchByEmail(email))
@@ -109,33 +109,14 @@ namespace anghamiApi.Controllers
         {
             if (age < 0)
                 return BadRequest("Age should be non negative");
-            if (email != null && !IsValidEmail(email))
+            if (email != null && !peopleService.IsValidEmail(email))
                 return BadRequest("Invalid email");
-            if (phone != null && !IsValidPhone(phone))
+            if (phone != null && !peopleService.IsValidPhone(phone))
                 return BadRequest("Invalid phone number, must be (xx-xxxxxx)");
             if (firstName == null && lastName == null && age <= 0 && email == null && phone == null)
                 return BadRequest("No parameters have been entered");
 
             return Ok(peopleService.SearchPeopleInDB(firstName, lastName, age, email, phone));
-        }
-
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool IsValidPhone(String input)
-        {
-            Regex regex = new Regex("^[0-9]+-[0-9]+$", RegexOptions.IgnoreCase);
-            return regex.IsMatch(input);
         }
     }
 }

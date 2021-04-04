@@ -395,5 +395,24 @@ namespace anghamiApi.Services
                 return new List<Person>();
             }
         }
+
+        public bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool IsValidPhone(String input)
+        {
+            Regex regex = new Regex("^[0-9]+-[0-9]+$", RegexOptions.IgnoreCase);
+            return regex.IsMatch(input);
+        }
     }
 }
