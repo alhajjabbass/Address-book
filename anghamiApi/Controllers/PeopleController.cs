@@ -34,18 +34,24 @@ namespace anghamiApi.Controllers
         [Route("/api/v1/person")]
         public IActionResult InsertPersonToDB([FromBody] Person person)
         {
-            if (person.firstname != null)
+            if (person.firstname == null)
                 return BadRequest("First Name should be present");
-            if (person.lastname != null)
+            if (person.lastname == null)
                 return BadRequest("Last Name should be present");
-            if (person.job != null)
+            if (person.job == null)
                 return BadRequest("Job should be present");
-            if (person.location != null)
+            if (person.location == null)
                 return BadRequest("Location should be present");
-            if (person.age != default && person.age < 0)
+            if (person.phone == null)
+                return BadRequest("Phone number should be present");
+            if (person.age == default || person.age < 0)
                 return BadRequest("Age should be present and positive");
+            if (person.email == null)
+                return BadRequest("Email should be present");
             if (person.email != null && !IsValidEmail(person.email))
                 return BadRequest("Invalid email");
+            if (person.phone != null && !IsValidPhone(person.phone))
+                return BadRequest("Invalid phone number");
             if (!peopleService.SearchByEmail(person.email))
                 return BadRequest("User already exists");
 

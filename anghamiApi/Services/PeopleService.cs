@@ -17,7 +17,7 @@ namespace anghamiApi.Services
         private IConfiguration configuration;
         private readonly ConstantsReaderService constantsReaderService;
         private readonly Constants constants;
-        private NpgsqlConnection conn;
+        private readonly NpgsqlConnection conn;
 
         public PeopleService(IConfiguration config, ConstantsReaderService constantsReader)
         {
