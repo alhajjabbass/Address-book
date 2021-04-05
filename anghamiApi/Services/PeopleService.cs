@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace anghamiApi.Services
@@ -108,9 +109,6 @@ namespace anghamiApi.Services
                 string sql = constants.InsertPersonQuery;
                 sql = string.Format(sql, constants.TableName, person.firstname, person.lastname, person.age, person.email, person.phone, person.job, person.location);
 
-                conn.Close();
-                conn.Open();
-
                 var cmd = new NpgsqlCommand
                 {
                     Connection = conn,
@@ -157,9 +155,6 @@ namespace anghamiApi.Services
                 }
 
                 sql = string.Format(sql, constants.TableName, updates, email);
-
-                conn.Close();
-                conn.Open();
 
                 var cmd = new NpgsqlCommand
                 {
@@ -222,9 +217,6 @@ namespace anghamiApi.Services
 
                 string sql = constants.DeletePersonFromDBQuery;
                 sql = string.Format(sql, constants.TableName, email);
-
-                conn.Close();
-                conn.Open();
 
                 var cmd = new NpgsqlCommand
                 {
