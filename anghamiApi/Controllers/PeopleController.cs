@@ -1,5 +1,6 @@
 ﻿using anghamiApi.Services;
 using anghamiApi.VM;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+//using System.Web.Http;
 
 namespace anghamiApi.Controllers
 {
@@ -30,6 +32,7 @@ namespace anghamiApi.Controllers
             constants = constantsReaderService.ReadConstants();
         }
 
+        [EnableCors("CorsPolicy")]
         [HttpPut]
         [Route("/api/v1/person")]
         public IActionResult InsertPersonToDB([FromBody] Person person)
@@ -60,6 +63,7 @@ namespace anghamiApi.Controllers
             return Ok("Inserted successfully");
         }
 
+        [EnableCors("CorsPolicy")]
         [HttpPatch]
         [Route("/api/v1/person/{email}")]
         public IActionResult UpdatePersonInDB(string email, [FromBody] Person person)
@@ -75,6 +79,7 @@ namespace anghamiApi.Controllers
             return Ok("Updated successfully");
         }
 
+        [EnableCors()]
         [HttpDelete]
         [Route("/api/v1/person/{email}")]
         public IActionResult DeletePersonFromDB(string email)
@@ -90,6 +95,7 @@ namespace anghamiApi.Controllers
             return Ok("Deleted Successfully");
         }
 
+        [EnableCors("AllowAll")]
         [HttpGet]
         [Route("/api/v1/people")]
         public IActionResult GetAllPeople(string location, string job, string page, int age = default)
@@ -103,6 +109,7 @@ namespace anghamiApi.Controllers
                 return Ok(peopleService.FilterPeopleFromDB(location, job, age, int.Parse(page)));
         }
 
+        [EnableCors("CorsPolicy")]
         [HttpGet]
         [Route("/api/v1/people/search")]
         public IActionResult SearchPeopleInDB(string firstName, string lastName, string email, string phone, int age = default)
