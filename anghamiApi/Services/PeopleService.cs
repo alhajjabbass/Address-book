@@ -15,19 +15,20 @@ namespace anghamiApi.Services
 {
     public class PeopleService
     {
-        private IConfiguration configuration;
         private readonly ConstantsReaderService constantsReaderService;
         private readonly Constants constants;
         private readonly NpgsqlConnection conn;
 
-        public PeopleService(IConfiguration config, ConstantsReaderService constantsReader)
+        public PeopleService(ConstantsReaderService constantsReader)
         {
-            configuration = config;
+            //Take ConstantsReaderService that's a singleton class
             constantsReaderService = constantsReader;
             constants = constantsReaderService.ReadConstants();
 
             //Get the connection string from the constants reader service, which in turns gets it from the app.setting file
             string ConnectionString = constants.ConnectionString;
+            //Create only 1 connection that is reused during the entire code
+            //This might make a problem with connection pooling, something I would look up if I had more time
             conn = new NpgsqlConnection(ConnectionString);
         }
 
@@ -106,6 +107,7 @@ namespace anghamiApi.Services
                 conn.Close();
                 conn.Open();
 
+                //Format the sql query with the appropriate parameters
                 string sql = constants.InsertPersonQuery;
                 sql = string.Format(sql, constants.TableName, person.firstname, person.lastname, person.age, person.email, person.phone, person.job, person.location);
 
@@ -138,6 +140,8 @@ namespace anghamiApi.Services
                 string updates = string.Empty;
                 string update = constants.UpdateColumn;
 
+                //Adding the updates to the query
+                //if the variable is not null, add <column_name>=<variable> as an update condition
                 if (person.phone != null)
                 {
                     string temp = string.Format(update, "phone", person.phone);
@@ -154,6 +158,7 @@ namespace anghamiApi.Services
                     updates += updates == string.Empty ? temp : ", " + temp;
                 }
 
+                //Format the query with the appropriate parameters.
                 sql = string.Format(sql, constants.TableName, updates, email);
 
                 var cmd = new NpgsqlCommand
@@ -349,9 +354,7 @@ namespace anghamiApi.Services
                     updates += updates == string.Empty ? temp : "AND " + temp;
                 }
 
-                //Format sql with the right params and pagination
                 //adding the table name to the sql
-                //adding the offset and limit for pagination, each page should contain 10 so the offset should be the page*10(limit) - 10(limit)
                 sql = string.Format(sql, constants.TableName, updates);
 
                 using (NpgsqlCommand command = new NpgsqlCommand(sql, conn))
@@ -388,6 +391,7 @@ namespace anghamiApi.Services
             }
         }
 
+        //Check the validity of an email
         public bool IsValidEmail(string email)
         {
             try
@@ -401,6 +405,7 @@ namespace anghamiApi.Services
             }
         }
 
+        //Regex expression to check the validity of a phone number with the lebanese format
         public bool IsValidPhone(String input)
         {
             Regex regex = new Regex("^[0-9]+-[0-9]+$", RegexOptions.IgnoreCase);
