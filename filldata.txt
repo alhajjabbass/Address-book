@@ -1,0 +1,15 @@
+//Create table
+
+create table "people" (
+id int PRIMARY KEY,
+firstname varchar(255) default NULL,
+lastname varchar(255) default NULL,
+age int default NULL,
+email varchar(255) default NULL,
+phone varchar(255) default NULL,
+job varchar(255) default NULL,
+location varchar(255) default NULL
+);
+
+INSERT INTO "people" (firstname,lastname,age,email,phone,job,location) VALUES ('Vincent','Mcfadden',22,'arcu.et@liberoProinsed.edu','89-517828','Lawyer','New York'),('Hedy','Hendrix',45,'Quisque.porttitor@dolorsit.co.uk','40-567042','Artist','Damascus'),('Dylan','Pierce',34,'Donec.non@necluctusfelis.ca','38-211553','Accountant','Beirut'),('Emi','Church',21,'blandit.congue@libero.net','82-691072','Veterinarian','Berlin'),('Jeremy','Barrett',42,'lacus@mattisCraseget.com','75-487626','Accountant','Cairo'),('Mary','Bennett',19,'semper@volutpatNulla.net','25-854299','Software Engineer','Rome'),('Mia','Whitfield',20,'pharetra.Quisque.ac@liberomauris.co.uk','33-931699','Accountant','Cairo'),('Lacota','Mullen',22,'sem.Nulla.interdum@acmi.ca','86-877615','Software Engineer','New York'),('Miranda','Albert',28,'hendrerit.a@pharetraNam.ca','90-592130','Personal Trainer','Riyad'),('Cairo','Gardner',62,'scelerisque.dui.Suspendisse@fringillapurus.net','95-931224','HR','Lyon');
+INSERT INTO "people" (firstname,lastname,age,email,phone,job,location) VALUES ('Helen','Branch',60,'consectetuer.cursus@tincidunt.edu','37-169682','Lawyer','Chicago'),('Rhiannon','Blake',34,'malesuada@consectetueripsum.com','92-026177','Software Engineer','Riyad'),('Maris','Buchanan',20,'Donec.feugiat.metus@dolorelit.com','28-185115','Architecture','Riyad'),('Jared','Hopkins',28,'egestas.rhoncus@etmagnis.edu','19-998178','Architecture','London'),('Ezekiel','Golden',41,'dolor@posuerecubiliaCurae.org','47-602664','Software Engineer','Vancouver'),('Francesca','Bender',49,'fames.ac.turpis@loremeu.com','90-895166','Doctor','Berlin'),('Ryan','Hebert',50,'orci@suscipitnonummy.ca','90-475879','Artist','Lyon'),('Nevada','Blevins',58,'nec.cursus@Quisquetincidunt.com','41-061183','Accountant','Riyad'),('Lucian','Bartlett',41,'Cras.dictum.ultricies@velvulputateeu.org','84-958816','Architecture','Berlin'),('Wilma','Cobb',29,'egestas.Aliquam.fringilla@ullamcorperDuiscursus.net','79-774901','HR','Montreal');
