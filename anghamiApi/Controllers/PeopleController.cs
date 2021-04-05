@@ -52,7 +52,7 @@ namespace anghamiApi.Controllers
                 return BadRequest("Invalid email");
             if (person.phone != null && !peopleService.IsValidPhone(person.phone))
                 return BadRequest("Invalid phone number");
-            if (!peopleService.SearchByEmail(person.email))
+            if (peopleService.SearchByEmail(person.email))
                 return BadRequest("User already exists");
 
             peopleService.InsertPersonToDB(person);
@@ -105,7 +105,7 @@ namespace anghamiApi.Controllers
 
         [HttpGet]
         [Route("/api/v1/people/search")]
-        public IActionResult GetTest(string firstName, string lastName, string email, string phone, int age = default)
+        public IActionResult SearchPeopleInDB(string firstName, string lastName, string email, string phone, int age = default)
         {
             if (age < 0)
                 return BadRequest("Age should be non negative");
